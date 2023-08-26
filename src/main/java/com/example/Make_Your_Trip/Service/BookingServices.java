@@ -104,20 +104,79 @@ public class BookingServices
 
         Transport transport=optionalTransport.get();
 
+        Ticket ticketEntity=createTicketEntity(transport,bookingRequestDto);
 
         //set the FK variables..
         booking.setTransport(transport);
         booking.setUser(user);
+        booking.setTicket(ticketEntity);
+
+        //bidirectional mapping..
 
 
-        //creat Ticket Enity..
 
-        Ticket ticketEntity=createTicketEntity(transport,bookingRequestDto);
+        //for ticket.
+        ticketEntity.setBooking(booking);
+
+        //for transport
+        transport.getBookings().add(booking);
+
+        //for user too.
+        user.getBookingList().add(booking);
+
+
+        //all settings are done now you have to save it..
+
+        transportRepository.save(transport);
+        userRepository.save(user);
+
+        return "You Have Booked Seats with "+bookingRequestDto.getSeatNo()+" Successfully "+" You have to pay Amout: Rs"+ticketEntity.getTotalCostPaid();
+
     }
 
     private Ticket createTicketEntity(Transport transport, BookingRequestDto bookingRequestDto)
     {
+       Integer totalPricePaid=findTotalPricePaid(transport,bookingRequestDto.getSeatNo());
 
+       String routeDetails=findRouteDetails(transport);
+       Ticket ticket=Ticket.builder()
+               .journeyDate(bookingRequestDto.getJourneyDate())
+               .startTime(transport.getStartTime())
+               .routeDetails(routeDetails)
+               .allSeatNos(bookingRequestDto.getSeatNo())
+               .totalCostPaid(totalPricePaid)
+               .build();
+
+
+       return ticket;
+    }
+
+    private String findRouteDetails(Transport transport)
+    {
+        Routes route=transport.getRoute();
+        return route.getFromCity()+" To "+route.getToCity();
+    }
+
+    private Integer findTotalPricePaid(Transport transport, String seatNO)
+    {
+
+        List<Seat>seatList=transport.getSeatList();
+        Integer totalPrice=0;
+        String[]seats= seatNO.split(",");
+        Set<String>set=new HashSet<>();
+        for(String s:seats)set.add(s);
+
+
+        //just Iterate over the Seats...
+
+        for(Seat seat:seatList)
+        {
+            if(set.contains(seat.getSeatNo()))
+            {
+                totalPrice+=seat.getPrice();
+            }
+        }
+        return totalPrice;
     }
 
 }

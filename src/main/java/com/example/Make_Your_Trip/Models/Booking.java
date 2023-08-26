@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -20,7 +21,7 @@ public class Booking
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bookingId;
     private String seatNo; //comma separated values... 1A,2A, 3B..
-    private Date journeyDate;
+    private LocalDate journeyDate;
     private Integer transportId;
 
 

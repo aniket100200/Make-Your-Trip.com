@@ -2,13 +2,14 @@ package com.example.Make_Your_Trip.RequestDtos.Booking;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 public class BookingRequestDto
 {
     private String seatNo; //comma separated values... 1A,2A, 3B..
-    private Date journeyDate;
+    private LocalDate journeyDate;
     private Integer transportId;
 
 

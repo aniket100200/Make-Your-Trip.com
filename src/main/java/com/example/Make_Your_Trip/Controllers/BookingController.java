@@ -21,7 +21,7 @@ public class BookingController
     private BookingServices bookingServices;
 
 
-   @GetMapping("/search-available-flights")
+   @PutMapping("/search-available-flights")
     public ResponseEntity searchForFlights(@RequestBody AvailableSeatRequestDto availableSeatRequestDto)
    {
        try
@@ -42,11 +42,12 @@ public class BookingController
    {
        try
        {
-
+           String responce= bookingServices.makeBooking(bookingRequestDto);
+           return new ResponseEntity(responce,HttpStatus.ACCEPTED);
        }
        catch (Exception e)
        {
-
+            log.error("error Found ",e.getMessage());
        }
        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
    }

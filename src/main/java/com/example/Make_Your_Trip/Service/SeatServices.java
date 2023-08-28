@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class SeatServices
 {
@@ -28,9 +31,10 @@ public class SeatServices
             Seat seat=Seat.builder()
                     .seatNo("E"+(i+1))
                     .seatType(SeatType.ECONOMY)
-                    .price(seatRequestDto.getNoOfEconomySeats())
+                    .price(seatRequestDto.getPriceOfEconomySeat())
                     .transport(transport)
                     .build();
+           seat= seatRepository.save(seat);
             transport.getSeatList().add(seat);
         }
 
@@ -42,6 +46,7 @@ public class SeatServices
                     .price(seatRequestDto.getPriceOfBusinessSeat())
                     .transport(transport)
                     .build();
+            seat =seatRepository.save(seat);
             transport.getSeatList().add(seat);
         }
 
@@ -49,4 +54,17 @@ public class SeatServices
         return "Seats Has Been Added to the Transport";
 
     }
+
+    public List<Seat> getSeatListByTransportId(Integer tId)throws Exception
+    {
+        Optional<Transport>optional=transportRepository.findById(tId);
+        if(optional.isPresent()==false)throw new TransportNotFoundException("Unable to Fetch the Transport with transportId");
+
+        Transport transport=optional.get();
+        List<Seat>seatList=transport.getSeatList();
+
+        return seatList;
+    }
+
+
 }

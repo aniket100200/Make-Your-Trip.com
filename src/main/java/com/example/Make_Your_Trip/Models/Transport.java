@@ -2,6 +2,7 @@ package com.example.Make_Your_Trip.Models;
 
 import com.example.Make_Your_Trip.Enums.ModeOfTransport;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,7 @@ public class Transport
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Routes route;
 
     @OneToMany(mappedBy = "transport",cascade = CascadeType.ALL)

@@ -1,6 +1,8 @@
 package com.example.Make_Your_Trip.Models;
 
 import com.example.Make_Your_Trip.Enums.SeatType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +28,6 @@ private Integer price;
 //parent Transport..
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Transport transport;
 }

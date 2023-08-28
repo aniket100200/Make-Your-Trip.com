@@ -14,8 +14,9 @@ public interface BookingRepositories extends JpaRepository<Booking,Integer>
     /*
     These are custom queryes .. one is in sql and other is in JPQL
      */
-    //@Query(value = "select * from booking where transportId=:transportId and journeyDate=:journeyDate",nativeQuery = true)
 
-    // @Query("select b from booking b where transportId=:transportId and journeyDate=:journeyDate")
+
+    //@Query("select b from booking b where transportId=:transportId and journeyDate=:journeyDate")
+   //@Query(value = "select * from booking where transportId=:transportId and journeyDate=:journeyDate",nativeQuery = true)
     List<Booking>findBookingsByTransportIdAndJourneyDate(Integer transportId, LocalDate journeyDate);
 }

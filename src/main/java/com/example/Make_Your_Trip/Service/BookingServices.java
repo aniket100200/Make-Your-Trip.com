@@ -110,6 +110,7 @@ public class BookingServices
         booking.setTransport(transport);
         booking.setUser(user);
         booking.setTicket(ticketEntity);
+        booking .setTransportId(transport.getTransportId());
 
         //bidirectional mapping..
 
@@ -180,3 +181,4 @@ public class BookingServices
     }
 
 }
+
